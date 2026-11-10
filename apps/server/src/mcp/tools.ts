@@ -458,7 +458,7 @@ export function registerAtlasTools(
   // --- Phase B ---
   server.tool(
     "propose_action",
-    "Propose a risk-gated action for founder approval (or auto-approve if autonomous)",
+    "Propose a risk-gated action for human approval (or auto-approve if autonomous)",
     {
       title: z.string(),
       body: z.string().optional(),
@@ -518,15 +518,15 @@ export function registerAtlasTools(
   );
 
   server.tool(
-    "get_founder_digest",
-    "60-second founder brief: outcomes, top interventions, autonomy health",
+    "get_operator_digest",
+    "Brief for the human operator: outcomes, top interventions, autonomy health",
     {},
-    async () => run(() => control.getFounderDigest()),
+    async () => run(() => control.getOperatorDigest()),
   );
 
   server.tool(
     "intervene",
-    "Founder intervention: approve/reject/reassign/pause_agent/resume_agent/reweight_kr",
+    "Human intervention: approve/reject/reassign/pause_agent/resume_agent/reweight_kr",
     {
       action: z.enum([
         "approve",

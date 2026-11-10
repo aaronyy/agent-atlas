@@ -24,7 +24,7 @@ export function collectAttention(input: AttentionInput): AttentionItem[] {
       kind: "pending_approval",
       id: approval.id,
       title: approval.title,
-      reason: `Needs founder decision (risk T${approval.riskTier})`,
+      reason: `Needs a human decision (risk T${approval.riskTier})`,
       severity: approval.riskTier >= 2 ? "high" : "medium",
     });
   }

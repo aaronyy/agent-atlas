@@ -63,7 +63,7 @@ export class ControlPlaneService {
       return {
         agent: { slug: agent.slug, paused: true },
         items: [],
-        message: "Agent is paused — founder must resume before claiming work",
+        message: "Agent is paused — an operator must resume before claiming work",
       };
     }
     const domains = input.domain
@@ -206,7 +206,7 @@ export class ControlPlaneService {
     });
     if (gate.mode === "blocked") {
       throw new Error(
-        `Action blocked (tier 0 / paused). Escalate to founder: ${input.title}`,
+        `Action blocked (tier 0 / paused). Escalate to a human: ${input.title}`,
       );
     }
     if (gate.mode === "autonomous" && risk < 2) {
@@ -305,7 +305,7 @@ export class ControlPlaneService {
       .update(approvals)
       .set({
         status: input.decision,
-        resolvedBy: input.resolvedBy ?? input.agentSlug ?? "founder",
+        resolvedBy: input.resolvedBy ?? input.agentSlug ?? "operator",
         resolvedAt: new Date(),
         resolutionNote: input.note ?? null,
       })
@@ -410,7 +410,7 @@ export class ControlPlaneService {
     return { items, staleHours: this.staleHours };
   }
 
-  async getFounderDigest() {
+  async getOperatorDigest() {
     const overview = await this.atlas.getWorkspaceOverview();
     const attention = await this.getAttentionEnriched();
     const pending = attention.items.filter(
@@ -450,8 +450,8 @@ export class ControlPlaneService {
       },
       summary:
         pending.length === 0
-          ? "All clear — no founder decisions needed."
-          : `${pending.length} item(s) need you: ${pending
+          ? "All clear — no human decisions needed."
+          : `${pending.length} item(s) need a decision: ${pending
               .slice(0, 3)
               .map((p) => p.title ?? p.kind)
               .join("; ")}`,
@@ -483,7 +483,7 @@ export class ControlPlaneService {
           approvalId: input.approvalId,
           decision: input.action === "approve" ? "approved" : "rejected",
           note: input.note,
-          resolvedBy: input.actor ?? "founder",
+          resolvedBy: input.actor ?? "operator",
         });
       }
       case "reassign": {
@@ -1066,7 +1066,7 @@ export class ControlPlaneService {
       entityKind: "task",
       entityId: row.id,
       eventType: "autonomy_promoted",
-      note: `Promoted ${input.actionType} → T${next.tier} by ${input.actor ?? "founder"}`,
+      note: `Promoted ${input.actionType} → T${next.tier} by ${input.actor ?? "operator"}`,
     });
     return updated[0]!;
   }

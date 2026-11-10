@@ -18,7 +18,7 @@ export function createApiApp(db: AtlasDb, config: Config) {
   app.use("*", cors());
 
   app.get("/api/health", (c) =>
-    c.json({ ok: true, service: "agent-atlas", version: "0.1.0" }),
+    c.json({ ok: true, service: "agent-atlas", version: "0.2.0" }),
   );
 
   app.use("/api/*", async (c, next) => {
@@ -111,7 +111,16 @@ export function createApiApp(db: AtlasDb, config: Config) {
   app.post("/api/comments", async (c) => {
     const atlas = c.get("atlas");
     const body = await c.req.json<{
-      entityKind: "objective" | "key_result" | "project" | "task" | "cycle";
+      entityKind:
+        | "objective"
+        | "key_result"
+        | "project"
+        | "task"
+        | "cycle"
+        | "principle"
+        | "tradeoff"
+        | "approval"
+        | "signal";
       entityId: string;
       body: string;
       authorLabel?: string;
@@ -143,7 +152,7 @@ export function createApiApp(db: AtlasDb, config: Config) {
 
   app.get("/api/digest", async (c) => {
     const control = c.get("control");
-    return c.json(await control.getFounderDigest());
+    return c.json(await control.getOperatorDigest());
   });
 
   app.get("/api/approvals", async (c) => {
@@ -169,7 +178,7 @@ export function createApiApp(db: AtlasDb, config: Config) {
           approvalId: c.req.param("id"),
           decision: body.decision,
           note: body.note,
-          resolvedBy: "founder",
+          resolvedBy: "operator",
         }),
       );
     } catch (e) {
