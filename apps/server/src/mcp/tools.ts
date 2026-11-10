@@ -45,6 +45,10 @@ const entityKind = z.enum([
   "project",
   "task",
   "cycle",
+  "principle",
+  "tradeoff",
+  "approval",
+  "signal",
 ]);
 
 export function registerAtlasTools(
