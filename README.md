@@ -52,7 +52,7 @@ Change the key anytime with `ATLAS_BOOTSTRAP_KEY` in `.env`.
 
 | Area | Tools |
 |------|--------|
-| Orient | `whoami`, `list_agents`, `get_workspace_overview`, `get_attention`, `get_founder_digest`, `get_intent_context` |
+| Orient | `whoami`, `list_agents`, `get_workspace_overview`, `get_attention`, `get_operator_digest`, `get_intent_context` |
 | Plan | `upsert_cycle`, `create_objective`, `create_key_result`, `create_project`, `create_task`, `link_task` |
 | Intent | `upsert_principle`, `list_principles`, `upsert_tradeoff`, `list_tradeoffs`, `register_signal`, `ingest_signal`, `list_signals` |
 | Execute | `get_next_work`, `claim_task`, `release_task`, `block_task`, `unblock_task`, `update_task_status`, `post_progress`, `set_key_result_value`, `add_comment` |
@@ -65,8 +65,8 @@ Change the key anytime with `ATLAS_BOOTSTRAP_KEY` in `.env`.
 - **Tasks** must link to a `key_result_id`, or set `unaligned=true` (surfaces in attention).
 - **Done** requires `evidence_url` (PR, link, artifact).
 - **Agents** pull work via `get_next_work` (ranked by KR lag × weight × priority).
-- **High-risk** actions use `propose_action`; founder clears via `resolve_approval` / `intervene` / digest.
-- **Autonomy** starts at T1 per action type; failures demote instantly; promotions need founder approve.
+- **High-risk** actions use `propose_action`; a human clears via `resolve_approval` / `intervene` / digest.
+- **Autonomy** starts at T1 per action type; failures demote instantly; promotions need human approve.
 
 ## Deploy
 

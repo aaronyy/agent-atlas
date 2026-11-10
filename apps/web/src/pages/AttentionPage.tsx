@@ -25,12 +25,34 @@ export function AttentionPage() {
     queryFn: () => apiFetch<Overview>("/api/overview", apiKey!),
     enabled: !!apiKey,
   });
+  const digest = useQuery({
+    queryKey: ["digest"],
+    queryFn: () =>
+      apiFetch<{ summary: string; attentionCount: number }>(
+        "/api/digest",
+        apiKey!,
+      ),
+    enabled: !!apiKey,
+  });
 
   const ack = useMutation({
     mutationFn: (taskId: string) =>
       apiFetch(`/api/tasks/${taskId}/acknowledge`, apiKey!, { method: "POST" }),
     onSuccess: () => {
       void qc.invalidateQueries({ queryKey: ["attention"] });
+      void qc.invalidateQueries({ queryKey: ["digest"] });
+    },
+  });
+
+  const resolveApproval = useMutation({
+    mutationFn: (args: { id: string; decision: "approved" | "rejected" }) =>
+      apiFetch(`/api/approvals/${args.id}/resolve`, apiKey!, {
+        method: "POST",
+        body: JSON.stringify({ decision: args.decision }),
+      }),
+    onSuccess: () => {
+      void qc.invalidateQueries({ queryKey: ["attention"] });
+      void qc.invalidateQueries({ queryKey: ["digest"] });
     },
   });
 
@@ -48,6 +70,13 @@ export function AttentionPage() {
           </p>
         </div>
       </div>
+
+      {digest.data?.summary && (
+        <div className="panel" style={{ marginBottom: "1rem" }}>
+          <h2 className="panel-title">Operator digest</h2>
+          <p className="meta">{digest.data.summary}</p>
+        </div>
+      )}
 
       <div className="panel">
         <h2 className="panel-title">Needs a nudge</h2>
@@ -83,6 +112,36 @@ export function AttentionPage() {
               >
                 Got it
               </button>
+            )}
+            {item.kind === "pending_approval" && (
+              <div className="row" style={{ gap: 8 }}>
+                <button
+                  className="btn"
+                  type="button"
+                  onClick={() =>
+                    resolveApproval.mutate({
+                      id: item.id,
+                      decision: "approved",
+                    })
+                  }
+                  disabled={resolveApproval.isPending}
+                >
+                  Approve
+                </button>
+                <button
+                  className="btn"
+                  type="button"
+                  onClick={() =>
+                    resolveApproval.mutate({
+                      id: item.id,
+                      decision: "rejected",
+                    })
+                  }
+                  disabled={resolveApproval.isPending}
+                >
+                  Reject
+                </button>
+              </div>
             )}
           </div>
         ))}
