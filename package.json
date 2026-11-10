@@ -1,0 +1,23 @@
+{
+  "name": "agent-atlas",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Agent Atlas — see goals and work, and what needs a nudge",
+  "license": "MIT",
+  "packageManager": "pnpm@9.15.0",
+  "scripts": {
+    "setup": "node scripts/setup.mjs",
+    "build": "pnpm -r run build",
+    "dev": "pnpm --filter @agent-atlas/server dev",
+    "dev:web": "pnpm --filter @agent-atlas/web dev",
+    "mcp": "node bin/atlas-mcp.mjs",
+    "db:generate": "pnpm --filter @agent-atlas/db generate",
+    "db:migrate": "pnpm --filter @agent-atlas/db migrate",
+    "test": "pnpm -r run test",
+    "lint": "pnpm -r run lint",
+    "typecheck": "pnpm -r run typecheck"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

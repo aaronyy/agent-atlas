@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "agent-atlas": {
+      "url": "https://YOUR_CLOUD_RUN_URL/mcp",
+      "headers": {
+        "Authorization": "Bearer ${env:ATLAS_MCP_TOKEN}"
+      }
+    }
+  }
+}

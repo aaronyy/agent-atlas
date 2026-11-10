@@ -1,0 +1,20 @@
+{
+  "name": "agent-atlas",
+  "description": "Local Agent Atlas MCP (OKR progress harness)",
+  "transport": "stdio",
+  "command": "node",
+  "args": ["bin/atlas-mcp.mjs"],
+  "cwd": "/ABSOLUTE/PATH/TO/agent-atlas",
+  "http": {
+    "url": "http://localhost:8080/mcp",
+    "headers": {
+      "Authorization": "Bearer atlas_local"
+    }
+  },
+  "notes": [
+    "Run `pnpm setup` once in the repo, then point cwd at the clone.",
+    "Local key defaults to atlas_local (dashboard + HTTP MCP).",
+    "Stdio needs no key — same workspace/DB as the dashboard.",
+    "Pass agent_slug=grok on mutating tools."
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "agent-atlas": {
+      "command": "node",
+      "args": ["bin/atlas-mcp.mjs"],
+      "cwd": "/ABSOLUTE/PATH/TO/agent-atlas"
+    }
+  }
+}

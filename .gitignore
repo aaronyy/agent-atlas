@@ -1,0 +1,17 @@
+node_modules
+dist
+build
+.env
+.env.local
+.env.cloudrun-test
+.env.*.local
+.data
+*.log
+.DS_Store
+coverage
+.turbo
+*.tsbuildinfo
+apps/web/dist
+apps/server/dist
+apps/server/public
+packages/*/dist
