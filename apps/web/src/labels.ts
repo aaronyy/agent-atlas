@@ -20,6 +20,10 @@ const ATTENTION_KIND: Record<string, string> = {
   stale_task: "Quiet too long",
   blocked_task: "Stuck",
   behind_kr: "Falling behind",
+  pending_approval: "Needs a decision",
+  unaligned_task: "No goal link",
+  autonomy_demotion: "Trust dropped",
+  drift: "Tasks ≠ outcome",
 };
 
 const SEVERITY: Record<string, string> = {
